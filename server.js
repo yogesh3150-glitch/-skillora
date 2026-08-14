@@ -29,4 +29,6 @@ const server=http.createServer(async(req,res)=>{
  if(method==="POST"&&u==="/api/settings"){let b=await body(req);d.settings={...d.settings,brand:String(b.brand||d.settings.brand),tagline:String(b.tagline||d.settings.tagline)};save(d);return json(res,200,{ok:true,settings:d.settings})}
  let file=u==="/"?"index.html":u.slice(1),fp=path.join(public,file);if(!fp.startsWith(public)||!fs.existsSync(fp))return send(res,404,"text/plain","Not found");let ext=path.extname(fp);let mt={".html":"text/html",".css":"text/css",".js":"text/javascript",".json":"application/json"}[ext]||"text/plain";send(res,200,mt,fs.readFileSync(fp));
 });
-server.listen(PORT,()=>console.log("Skillora running: http://localhost:"+PORT));
+server.listen(process.env.PORT || 3000, "0.0.0.0", () =>
+  console.log("Skillora running")
+);
